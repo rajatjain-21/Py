@@ -13,7 +13,7 @@ mongo = PyMongo(app)
 @app.route('/')
 def index():
     if 'username' in session:
-        return 'You are logged in as '+session['username']
+        return render_template('logged.html',name=session['username'])
     return render_template('index.html')
 
 @app.route('/login', methods=['POST'])
@@ -41,6 +41,11 @@ def register():
 
         return 'This username already exists! Try again with a different username.'
     return render_template('register.html')
+
+@app.route('/logout',methods=['GET'])
+def logout():
+    session.clear()
+    return redirect(url_for('index'))
 
 
 if __name__==('__main__'):
